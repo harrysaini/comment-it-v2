@@ -1,0 +1,29 @@
+spring:
+  jpa:
+    database: mysql
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/comment_it_v2?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: olx@1234
+    platform: mysql
+
+  flyway:
+    enabled: false
+
+
+
+info:
+  app:
+    name: Comment it
+    description: jvm based backend server
+    version: 1.0.1
+
+management:
+  endpoint:
+    health:
+      enabled: true
+
+  endpoints:
+    web:
+      base-path: /
