@@ -1,33 +1,35 @@
 package com.harrry.comment_it.common.db.models
 
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
 @Table(name = "comments")
-data class Comment(
+class Comment(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id")
-        val id: Int? = null,
+        var id: Int = 0,
 
         @Column(name = "level")
-        val level: Int = 0,
+        var level: Int = 0,
 
         @Column(name = "text", nullable = false)
-        val text: String,
+        var text: String,
 
-        @OneToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-        @JoinColumn(name = "userId")
-        val user: User,
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "user_id", nullable = false)
+        var user: User
+
+
+): Serializable {
 
         @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-        @JoinColumn(name = "parentCommentId")
-        var replies: MutableList<Comment>
-) {
+        @JoinColumn(name = "parent_comment_id")
+        val replies: MutableList<Comment> = mutableListOf()
+
+
         fun addReply(comment: Comment) {
-                if (replies == null){
-                        replies = mutableListOf()
-                }
                 replies.add(comment)
         }
 }

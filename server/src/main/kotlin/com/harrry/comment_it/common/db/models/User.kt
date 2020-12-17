@@ -1,18 +1,26 @@
 package com.harrry.comment_it.common.db.models
 
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-data class User (
+class User(
+        @Id
         @Column(name = "id")
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Int = 0,
+        var id: Int = 0,
 
-        @Id()
         @Column(name = "username", nullable = false)
-        val username: String,
+        var username: String,
 
         @Column(name = "password", nullable = false)
-        val password: String
-)
+        var password: String,
+
+        @OneToMany(
+                mappedBy = "user",
+                cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH],
+                fetch = FetchType.LAZY
+        )
+        var comments: List<Comment> = emptyList()
+): Serializable

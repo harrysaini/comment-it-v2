@@ -12,9 +12,10 @@ import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import javax.transaction.Transactional
 
 
-class JWTAuthorizationFilter(
+open class JWTAuthorizationFilter(
         private val jwtConfig: JWTConfig,
 
         @Autowired
@@ -34,7 +35,7 @@ class JWTAuthorizationFilter(
         filterChain.doFilter(req, res)
     }
 
-    private fun getAuthentication(req: HttpServletRequest): UsernamePasswordAuthenticationToken? {
+     private fun getAuthentication(req: HttpServletRequest): UsernamePasswordAuthenticationToken {
         val header = req.getHeader(JWTConfig.HEADER_NAME)
 
         return header?.let {
@@ -43,12 +44,9 @@ class JWTAuthorizationFilter(
                     .verify(it.removePrefix(JWTConfig.TOKEN_PREFIX))
                     .subject
 
-            var user = userJPARepository.findByUsername(username)
-            return if(user != null ){
-                UsernamePasswordAuthenticationToken(user, null, emptyList())
-            } else {
-                throw InvalidAuthException("Invalid token")
-            }
+            return UsernamePasswordAuthenticationToken(username, null, emptyList())
+        } ?: kotlin.run {
+            throw InvalidAuthException("Invalid token")
         }
     }
 

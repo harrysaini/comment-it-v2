@@ -1,6 +1,7 @@
 package com.harrry.comment_it.common.utils
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
 
 
 enum class StatusCode(val value: Int) {
@@ -14,6 +15,7 @@ data class Status(
         val message: String
 )
 
+@JsonPropertyOrder(value = ["status", "data", "error"])
 class GenericResponse<T>(statusCode: StatusCode, statusMessage: String, data: T? = null, error: T? = null) {
     val status = Status(statusCode.value, statusMessage)
 

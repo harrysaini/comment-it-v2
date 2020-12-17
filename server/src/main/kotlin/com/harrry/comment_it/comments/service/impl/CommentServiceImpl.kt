@@ -31,7 +31,7 @@ class CommentServiceImpl(
         }
 
         val parentComment = parentCommentOpt.get()
-        if (CommentsConfig.LEVEL_RECURSION_LIMIT >= parentComment.level) {
+        if (CommentsConfig.LEVEL_RECURSION_LIMIT < parentComment.level) {
             throw InvalidRequestDataException(InvalidRequestDataException.INVALID_LEVEL)
         }
 

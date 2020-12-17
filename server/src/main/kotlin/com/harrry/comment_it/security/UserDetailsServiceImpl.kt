@@ -14,7 +14,7 @@ class UserDetailsServiceImpl(
     override fun loadUserByUsername(username: String): UserDetails {
             val user = userJPARepository.findByUsername(username)
             return if(user != null){
-                User(user.username, user.password, emptyList())
+                com.harrry.comment_it.security.model.User(user.id, user.username, user.password)
             } else {
                 throw ResourceNotFoundException("Username not found")
             }

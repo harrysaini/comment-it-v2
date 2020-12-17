@@ -1,5 +1,6 @@
 package com.harrry.comment_it.common.filters
 
+import com.auth0.jwt.exceptions.JWTDecodeException
 import com.auth0.jwt.exceptions.SignatureVerificationException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.harrry.comment_it.common.exceptions.InvalidAuthException
@@ -22,8 +23,8 @@ class ExceptionHandlerFilter: OncePerRequestFilter() {
             sendErrorResponse(response,StatusCode.ERROR, ex.message.toString(), HttpStatus.FORBIDDEN)
         } catch ( ex: InvalidAuthException ) {
             sendErrorResponse(response, StatusCode.ERROR, ex.message.toString(), HttpStatus.FORBIDDEN)
-        } catch (ex: Exception) {
-            sendErrorResponse(response,StatusCode.ERROR, ErrorMessages.SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR)
+        } catch ( ex: JWTDecodeException ) {
+            sendErrorResponse(response, StatusCode.ERROR, ex.message.toString(), HttpStatus.FORBIDDEN)
         }
     }
 

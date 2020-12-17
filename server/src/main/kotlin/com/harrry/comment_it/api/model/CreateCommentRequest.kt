@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank
 
 data class CreateCommentRequest (
         @get:NotBlank(message = TEXT_EMPTY)
-        val text: String,
+        val text: String? = null,
 
         val parentCommentId: Int? = null
 ) {

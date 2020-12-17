@@ -9,10 +9,9 @@ import org.springframework.stereotype.Component
 class CommentsMapper {
     fun map(createCommentRequest: CreateCommentRequest, level: Int, user: User): Comment {
         return Comment(
-                text = createCommentRequest.text,
+                text = createCommentRequest.text!!,
                 level = level,
-                user = user,
-                replies = mutableListOf()
+                user = user
         )
     }
 

@@ -43,5 +43,10 @@ class ExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response)
     }
 
+    @ExceptionHandler(InvalidRequestDataException::class)
+    fun handleInvalidRequestDataException(ex: InvalidRequestDataException): ResponseEntity<GenericResponse<Unit>> {
+        val response = GenericResponse<Unit>(StatusCode.ERROR,ex.message.toString())
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response)
+    }
 
 }

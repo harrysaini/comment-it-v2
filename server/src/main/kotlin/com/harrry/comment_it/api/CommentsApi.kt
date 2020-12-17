@@ -7,6 +7,7 @@ import com.harrry.comment_it.api.model.UserSignupRequest
 import com.harrry.comment_it.common.utils.GenericResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -30,4 +31,15 @@ interface CommentsApi: BaseApi {
             createCommentRequest: CreateCommentRequest,
             authentication: Authentication
     ): ResponseEntity<GenericResponse<Comment>?>
+
+    @RequestMapping(
+            value = ["/comment/{id}"],
+            produces = ["application/json"],
+            method = [RequestMethod.GET]
+    )
+    fun getCommentResource(
+            @PathVariable(),
+    ): ResponseEntity<GenericResponse<Comment>?> {
+        return this.createComment(createCommentRequest, authentication)
+    }
 }
