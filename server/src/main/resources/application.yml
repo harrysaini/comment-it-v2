@@ -27,3 +27,10 @@ management:
   endpoints:
     web:
       base-path: /
+
+server:
+  port: 3000
+
+
+jwt:
+  secretKey: sdasf87s87AD879sdf

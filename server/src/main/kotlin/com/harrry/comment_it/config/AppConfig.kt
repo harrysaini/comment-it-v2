@@ -11,3 +11,16 @@ data class DatabaseConfig(
         val username: String,
         val password: String,
 )
+
+@ConstructorBinding
+@ConfigurationProperties(prefix = "jwt")
+data class JWTConfig(
+        val secretKey: String
+) {
+    companion object {
+        const val EXPIRY_TIME = 24 * 60 * 60 * 1000
+        const val HEADER_NAME = "Authorization"
+        const val TOKEN_PREFIX = "Bearer "
+    }
+
+}

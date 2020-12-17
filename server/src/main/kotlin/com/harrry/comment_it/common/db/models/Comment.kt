@@ -8,7 +8,7 @@ data class Comment(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id")
-        val id: Int,
+        val id: Int? = null,
 
         @Column(name = "level")
         val level: Int = 0,
@@ -21,6 +21,13 @@ data class Comment(
         val user: User,
 
         @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-        @JoinColumn(name = "replyId")
-        val replies: List<Comment>
-)
+        @JoinColumn(name = "parentCommentId")
+        var replies: MutableList<Comment>
+) {
+        fun addReply(comment: Comment) {
+                if (replies == null){
+                        replies = mutableListOf()
+                }
+                replies.add(comment)
+        }
+}

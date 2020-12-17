@@ -1,9 +1,13 @@
 package com.harrry.comment_it.api
 
+import com.harrry.comment_it.api.model.LoginRequest
+import com.harrry.comment_it.api.model.LoginResponse
 import com.harrry.comment_it.api.model.User
 import com.harrry.comment_it.api.model.UserSignupRequest
+import com.harrry.comment_it.common.utils.GenericResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 
 interface AuthenticationApi : BaseApi {
@@ -14,12 +18,28 @@ interface AuthenticationApi : BaseApi {
             method = [RequestMethod.POST]
     )
     fun signupUserResource(
-            @RequestBody userSignupRequest: UserSignupRequest
-    ): ResponseEntity<User?> {
+            @Valid @RequestBody userSignupRequest: UserSignupRequest
+    ): ResponseEntity<GenericResponse<User>?> {
         return this.signupUser(userSignupRequest)
     }
 
     fun signupUser(
             userSignupRequest: UserSignupRequest
-    ): ResponseEntity<User?>
+    ): ResponseEntity<GenericResponse<User>?>
+
+
+    @RequestMapping(
+            value = ["/auth/login"],
+            produces = ["application/json"],
+            method = [RequestMethod.POST]
+    )
+    fun loginUserResource(
+            @RequestBody @Valid loginRequest: LoginRequest
+    ): ResponseEntity<GenericResponse<LoginResponse>?> {
+        return this.loginUser(loginRequest)
+    }
+
+    fun loginUser(
+            @RequestBody loginRequest: LoginRequest
+    ): ResponseEntity<GenericResponse<LoginResponse>?>
 }
