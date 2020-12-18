@@ -6,4 +6,6 @@ import com.harrry.comment_it.common.db.models.User
 
 interface CommentsService {
     fun createComment(createCommentRequest: CreateCommentRequest, user: User): Comment
+    fun getComment(commentId: Int): Comment
+    fun getAllComments(): List<Comment>
 }

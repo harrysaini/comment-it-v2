@@ -24,7 +24,7 @@ class Comment(
 
 ): Serializable {
 
-        @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
         @JoinColumn(name = "parent_comment_id")
         val replies: MutableList<Comment> = mutableListOf()
 

@@ -16,6 +16,7 @@ class CommentsController(
         val commentsService: CommentsService,
         val userJPARepository: UserJPARepository
 ): CommentsApi {
+
     override fun createComment(createCommentRequest: CreateCommentRequest, authentication: Authentication): ResponseEntity<GenericResponse<Comment>?> {
         val username = authentication.principal as String
         val user = userJPARepository.findByUsername(username)
@@ -27,5 +28,17 @@ class CommentsController(
             throw InvalidRequestDataException("Invalid username")
         }
 
+    }
+
+    override fun getComment(commentId: Int): ResponseEntity<GenericResponse<Comment>?> {
+        val comment = commentsService.getComment(commentId)
+        val response = GenericResponse.success(comment)
+        return ResponseEntity.ok().body(response)
+    }
+
+    override fun getAllComments(): ResponseEntity<GenericResponse<List<Comment>>>? {
+        val comments: List<Comment> = commentsService.getAllComments()
+        val response = GenericResponse.success(comments)
+        return ResponseEntity.ok().body(response)
     }
 }

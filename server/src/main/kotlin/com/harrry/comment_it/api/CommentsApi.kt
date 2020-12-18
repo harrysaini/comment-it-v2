@@ -7,13 +7,20 @@ import com.harrry.comment_it.api.model.UserSignupRequest
 import com.harrry.comment_it.common.utils.GenericResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 interface CommentsApi: BaseApi {
+
+    @GetMapping(
+            value = ["/comment"],
+            produces = ["application/json"],
+    )
+    fun getAllCommentsResource(): ResponseEntity<GenericResponse<List<Comment>>>? {
+        return this.getAllComments()
+    }
+
+    fun getAllComments(): ResponseEntity<GenericResponse<List<Comment>>>?
 
     @RequestMapping(
             value = ["/comment"],
@@ -32,14 +39,22 @@ interface CommentsApi: BaseApi {
             authentication: Authentication
     ): ResponseEntity<GenericResponse<Comment>?>
 
+
+
+
     @RequestMapping(
-            value = ["/comment/{id}"],
+            value = ["/comment/{commentId}"],
             produces = ["application/json"],
             method = [RequestMethod.GET]
     )
     fun getCommentResource(
-            @PathVariable(),
+            @PathVariable("commentId") commentId: Int,
     ): ResponseEntity<GenericResponse<Comment>?> {
-        return this.createComment(createCommentRequest, authentication)
+        return this.getComment(commentId)
     }
+
+    fun getComment(
+            commentId: Int
+    ): ResponseEntity<GenericResponse<Comment>?>
+
 }

@@ -15,12 +15,15 @@ class CommentsMapper {
         )
     }
 
-    fun map(comment: Comment): com.harrry.comment_it.api.model.Comment {
+    fun map(comment: Comment, replies: List<com.harrry.comment_it.api.model.Comment> = emptyList()): com.harrry.comment_it.api.model.Comment {
         return com.harrry.comment_it.api.model.Comment(
                 id = comment.id!!,
                 text = comment.text,
-                replies = comment.replies,
-                userId = comment.user.id
+                replies = replies,
+                user = com.harrry.comment_it.api.model.User(
+                        comment.user.id,
+                        comment.user.username
+                )
         )
     }
 }
