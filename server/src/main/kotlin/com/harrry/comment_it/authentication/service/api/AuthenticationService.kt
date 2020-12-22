@@ -8,4 +8,5 @@ import com.harrry.comment_it.api.model.UserSignupRequest
 interface AuthenticationService {
     fun signup(userSignupRequest: UserSignupRequest): User
     fun login(loginRequest: LoginRequest): LoginResponse
+    fun getUserByUsername(username: String): User
 }

@@ -2,6 +2,7 @@ package com.harrry.comment_it.comments.service.impl
 
 import com.harrry.comment_it.api.model.Comment
 import com.harrry.comment_it.api.model.CreateCommentRequest
+import com.harrry.comment_it.api.model.EditCommentRequest
 import com.harrry.comment_it.comments.mapper.CommentsMapper
 import com.harrry.comment_it.comments.service.api.CommentsService
 import com.harrry.comment_it.common.db.models.User
@@ -21,18 +22,13 @@ class CommentServiceImpl(
 ): CommentsService {
 
     override fun getComment(commentId: Int): Comment {
-        val commentOpt = commentsJPARepository.findById(commentId)
-        return if (commentOpt.isPresent) {
-            val comment = commentOpt.get()
-            val replies = findAllReplies(comment)
-            commentsMapper.map(comment, replies)
-        } else {
-            throw InvalidRequestDataException("Comment id invalid")
-        }
+        val comment = getCommentById(commentId)
+        val replies = findAllReplies(comment)
+        return commentsMapper.map(comment, replies)
     }
 
     override fun getAllComments(): List<Comment> {
-        val comments = commentsJPARepository.findAll()
+        val comments = commentsJPARepository.findByLevel(0)
         return runBlocking {
             val withRepliesDeferred = comments.map {
                 async {
@@ -41,6 +37,16 @@ class CommentServiceImpl(
                 }
             }
             withRepliesDeferred.awaitAll()
+        }
+    }
+
+    override fun editComment(commentId: Int, editCommentRequest: EditCommentRequest, user: User): Comment {
+        val comment = getCommentById(commentId)
+        return if(comment.user.id == user.id) {
+            val updatedComment = commentsMapper.map(comment, editCommentRequest)
+            commentsMapper.map(commentsJPARepository.save(updatedComment))
+        } else {
+            throw InvalidRequestDataException("User can't edit this comment")
         }
     }
 
@@ -84,5 +90,14 @@ class CommentServiceImpl(
         parentComment.addReply(comment)
         commentsJPARepository.save(parentComment)
         return parentComment.replies.last()
+    }
+
+    private fun getCommentById(commentId: Int): com.harrry.comment_it.common.db.models.Comment {
+        val commentOpt = commentsJPARepository.findById(commentId)
+        return if (commentOpt.isPresent) {
+            commentOpt.get()
+        } else {
+            throw InvalidRequestDataException("Comment id invalid")
+        }
     }
 }

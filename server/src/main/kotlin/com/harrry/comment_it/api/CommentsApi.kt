@@ -1,9 +1,6 @@
 package com.harrry.comment_it.api
 
-import com.harrry.comment_it.api.model.Comment
-import com.harrry.comment_it.api.model.CreateCommentRequest
-import com.harrry.comment_it.api.model.User
-import com.harrry.comment_it.api.model.UserSignupRequest
+import com.harrry.comment_it.api.model.*
 import com.harrry.comment_it.common.utils.GenericResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
@@ -55,6 +52,26 @@ interface CommentsApi: BaseApi {
 
     fun getComment(
             commentId: Int
+    ): ResponseEntity<GenericResponse<Comment>?>
+
+
+    @RequestMapping(
+            value = ["/comment/{commentId}"],
+            produces = ["application/json"],
+            method = [RequestMethod.PUT]
+    )
+    fun editCommentResource(
+            @Valid @RequestBody editCommentRequest: EditCommentRequest,
+            @PathVariable("commentId") commentId: Int,
+            authentication: Authentication
+    ): ResponseEntity<GenericResponse<Comment>?> {
+        return this.editComment(commentId, editCommentRequest, authentication)
+    }
+
+    fun editComment(
+            commentId: Int,
+            editCommentRequest: EditCommentRequest,
+            authentication: Authentication
     ): ResponseEntity<GenericResponse<Comment>?>
 
 }

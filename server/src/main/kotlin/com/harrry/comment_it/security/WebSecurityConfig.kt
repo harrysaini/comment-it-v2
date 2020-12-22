@@ -34,10 +34,11 @@ class WebSecurityConfig(
     override fun configure(http: HttpSecurity?) {
         http?.cors()?.and()?.csrf()?.disable()
                 ?.authorizeRequests()
+                ?.antMatchers("/**")?.permitAll()
                 ?.antMatchers(HttpMethod.POST, "/api/v1/auth/**")?.permitAll()
                 ?.and()
                 ?.authorizeRequests()
-                ?.anyRequest()?.authenticated()
+                ?.antMatchers("/api/**")?.authenticated()
                 ?.and()
                 ?.addFilterBefore(JWTAuthorizationFilter(jwtConfig, userJPARepository), UsernamePasswordAuthenticationFilter::class.java)
                 ?.addFilterBefore(ExceptionHandlerFilter(), CorsFilter::class.java)

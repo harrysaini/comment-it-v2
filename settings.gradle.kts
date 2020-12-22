@@ -1,5 +1,7 @@
 rootProject.name = "comment-it-v2"
 
+include("client")
+include("server")
 
 buildCache {
     local {

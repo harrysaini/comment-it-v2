@@ -23,7 +23,9 @@ class AuthenticationMapper(
     fun map(user: User): com.harrry.comment_it.api.model.User {
         return com.harrry.comment_it.api.model.User(
                 id = user.id,
-                username = user.username
+                username = user.username,
+                createdAt = user.createdAt.toString(),
+                updatedAt = user.updatedAt.toString()
         )
     }
 

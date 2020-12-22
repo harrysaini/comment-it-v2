@@ -10,6 +10,10 @@ spring:
 
   flyway:
     enabled: false
+  web:
+    resources:
+      cache:
+        period: 126227704
 
 
 
@@ -34,3 +38,4 @@ server:
 
 jwt:
   secretKey: sdasf87s87AD879sdf
+

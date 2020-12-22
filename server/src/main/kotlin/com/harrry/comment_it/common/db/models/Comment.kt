@@ -1,6 +1,7 @@
 package com.harrry.comment_it.common.db.models
 
 import java.io.Serializable
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -19,10 +20,15 @@ class Comment(
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false)
-        var user: User
+        var user: User,
 
+        @Column(name = "created_at", nullable = false)
+        var createdAt: Date = Date(),
 
-): Serializable {
+        @Column(name = "updated_at", nullable = false)
+        var updatedAt: Date = Date(),
+
+        ): Serializable {
 
         @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
         @JoinColumn(name = "parent_comment_id")

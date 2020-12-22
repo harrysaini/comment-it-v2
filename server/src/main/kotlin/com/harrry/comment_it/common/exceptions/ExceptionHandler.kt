@@ -1,6 +1,7 @@
 package com.harrry.comment_it.common.exceptions
 
 import com.auth0.jwt.exceptions.SignatureVerificationException
+import com.auth0.jwt.exceptions.TokenExpiredException
 import com.harrry.comment_it.common.utils.GenericResponse
 import com.harrry.comment_it.common.utils.StatusCode
 import org.springframework.core.Ordered
@@ -37,7 +38,7 @@ class ExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response)
     }
 
-    @ExceptionHandler(BadCredentialsException::class, SignatureVerificationException::class, InternalAuthenticationServiceException::class)
+    @ExceptionHandler(BadCredentialsException::class, SignatureVerificationException::class, InternalAuthenticationServiceException::class, TokenExpiredException::class)
     fun handleBadCredentialsException(ex: Exception): ResponseEntity<GenericResponse<Unit>> {
         val response = GenericResponse<Unit>(StatusCode.ERROR,ex.message.toString())
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response)

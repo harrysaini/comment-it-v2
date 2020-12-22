@@ -32,6 +32,8 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	implementation(project(":client"))
 }
 
 tasks.withType<Test> {
@@ -44,3 +46,6 @@ tasks.withType<KotlinCompile> {
 		jvmTarget = "11"
 	}
 }
+
+
+

@@ -7,7 +7,10 @@ import com.harrry.comment_it.api.model.UserSignupRequest
 import com.harrry.comment_it.authentication.mapper.AuthenticationMapper
 import com.harrry.comment_it.authentication.service.api.AuthenticationService
 import com.harrry.comment_it.common.db.repository.UserJPARepository
+import com.harrry.comment_it.common.exceptions.InvalidRequestDataException
 import com.harrry.comment_it.common.jwt.JwtUtil
+import com.harrry.comment_it.common.utils.GenericResponse
+import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -19,7 +22,7 @@ class AuthenticationServiceImpl(
         val authenticationMapper: AuthenticationMapper,
         val userJPARepository: UserJPARepository,
         val authenticationManager: AuthenticationManager,
-        val jwtUtil: JwtUtil
+        val jwtUtil: JwtUtil,
 ): AuthenticationService {
     override fun signup(userSignupRequest: UserSignupRequest): User {
         val user = authenticationMapper.map(userSignupRequest)
@@ -38,4 +41,15 @@ class AuthenticationServiceImpl(
 
         return authenticationMapper.map(user, token);
     }
+
+    override fun getUserByUsername(username: String): User {
+        val user = userJPARepository.findByUsername(username)
+        return if(user != null) {
+            authenticationMapper.map(user)
+        } else {
+            throw InvalidRequestDataException("Invalid username")
+        }
+    }
+
+
 }

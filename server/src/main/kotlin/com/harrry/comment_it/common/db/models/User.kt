@@ -1,6 +1,7 @@
 package com.harrry.comment_it.common.db.models
 
 import java.io.Serializable
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -22,5 +23,13 @@ class User(
                 cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH],
                 fetch = FetchType.LAZY
         )
-        var comments: List<Comment> = emptyList()
-): Serializable
+        var comments: List<Comment> = emptyList(),
+
+        @Column(name = "created_at", nullable = false)
+        var createdAt: Date = Date(),
+
+        @Column(name = "updated_at", nullable = false)
+        var updatedAt: Date = Date(),
+
+
+        ): Serializable
