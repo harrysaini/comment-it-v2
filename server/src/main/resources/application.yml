@@ -4,6 +4,8 @@ spring:
     show-sql: true
   datasource:
     platform: mysql
+    hikari:
+      maximum-pool-size: 5
 
   flyway:
     enabled: false
@@ -11,6 +13,7 @@ spring:
     resources:
       cache:
         period: 126227704
+
 
 info:
   app:
