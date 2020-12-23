@@ -4,9 +4,11 @@
 Basic app to learn spring and kotlin
 
 Tech - 
-  Kotlin
-  Spring Boot
-  MySQL
-  gradle
+- Kotlin
+- Spring Boot
+- MySQL
+- gradle
+- React
+
+Added JWT auth.
   
-  React
