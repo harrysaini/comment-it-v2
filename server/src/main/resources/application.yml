@@ -3,9 +3,6 @@ spring:
     database: mysql
     show-sql: true
   datasource:
-    url: jdbc:mysql://localhost:3306/comment_it_v2?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: root
-    password: olx@1234
     platform: mysql
 
   flyway:
@@ -14,8 +11,6 @@ spring:
     resources:
       cache:
         period: 126227704
-
-
 
 info:
   app:
@@ -35,7 +30,4 @@ management:
 server:
   port: 3000
 
-
-jwt:
-  secretKey: sdasf87s87AD879sdf
 

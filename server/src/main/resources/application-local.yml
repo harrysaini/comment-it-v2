@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/comment_it_v2?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: olx@1234
+
+jwt:
+  secretKey: sdasf87s87AD879sdf
