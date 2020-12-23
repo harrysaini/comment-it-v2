@@ -20,7 +20,7 @@ class CommentsMapper {
 
     fun map(comment: Comment, replies: List<com.harrry.comment_it.api.model.Comment> = emptyList()): com.harrry.comment_it.api.model.Comment {
         return com.harrry.comment_it.api.model.Comment(
-                id = comment.id!!,
+                id = comment.id,
                 text = comment.text,
                 replies = replies,
                 user = com.harrry.comment_it.api.model.User(

@@ -43,7 +43,7 @@ class CommentsController(
         return if(user != null) {
             val comment = commentsService.editComment(commentId, editCommentRequest, user)
             val response = GenericResponse.success(comment)
-            return ResponseEntity.ok().body(response)
+            ResponseEntity.ok().body(response)
         } else {
             throw InvalidRequestDataException("Invalid username")
         }
